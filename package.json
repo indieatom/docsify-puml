@@ -1,0 +1,53 @@
+{
+  "name": "docsify-puml",
+  "version": "1.0.0",
+  "description": "Docsify plugin to parse PlantUML content",
+  "main": "src",
+  "repository": "https://github.com/indieatom/docsify-puml.git",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "docsify",
+    "plantuml",
+    "themable"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "example",
+    "README.md"
+  ],
+  "bugs": {
+    "url": "https://github.com/indieatom/docsify-puml/issues"
+  },
+  "homepage": "https://github.com/indieatom/docsify-puml#README",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty & git cz --hook || true"
+    }
+  },
+  "dependencies": {
+    "plantuml-encoder": "^1.4.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
