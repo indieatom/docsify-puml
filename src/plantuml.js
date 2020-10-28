@@ -1,4 +1,5 @@
 import { encode } from "plantuml-encoder";
+import getSkin from "./skin";
 
 const { dom } = window.Docsify;
 
@@ -9,10 +10,10 @@ const getElements = $ => {
   return dom.findAll($, SELECTOR);
 };
 
-const createPlant = (element, config) => {
-  const PUMLserver = config.serverPath || "//www.plantuml.com/plantuml/svg/";
-  const svgElement = PUMLserver + encode(element);
-  if (config.renderAsObject) {
+const createPlant = (element, skin, { renderAsObject, serverPath }) => {
+  const PUMLserver = serverPath || "//www.plantuml.com/plantuml/svg/";
+  const svgElement = PUMLserver + encode(skin + element);
+  if (renderAsObject) {
     return `<object type="image/svg+xml" data="${svgElement}" />`;
   }
   return `<img src="${svgElement}" />`;
@@ -37,10 +38,11 @@ const main = async (html, config) => {
   const pumlElements = getElements($);
 
   if (pumlElements) {
-    pumlElements.forEach(el => {
-      const planted = createPlant(el.innerText, config);
+    for (const el of pumlElements) {
+      const skin = await getSkin(config.skin);
+      const planted = createPlant(el.innerText, skin, config);
       replace(el, planted);
-    });
+    }
   }
 
   return $.innerHTML;
@@ -48,6 +50,7 @@ const main = async (html, config) => {
 
 export default (hook, vm) => {
   const config = {
+    skin: "default",
     renderAsObject: false,
     ...vm.config.plantuml,
   };
