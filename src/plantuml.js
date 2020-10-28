@@ -10,6 +10,11 @@ const getElements = $ => {
   return dom.findAll($, SELECTOR);
 };
 
+const getCurrentUrl = () => {
+  const location = window.location.toString();
+  return location.substring(0, location.lastIndexOf("/") + 1);
+};
+
 const createPlant = (element, skin, { renderAsObject, serverPath }) => {
   const PUMLserver = serverPath || "//www.plantuml.com/plantuml/svg/";
   const svgElement = PUMLserver + encode(skin + element);
@@ -20,11 +25,8 @@ const createPlant = (element, skin, { renderAsObject, serverPath }) => {
 };
 
 const createURLs = element => {
-  const location = window.location.toString();
-  const currentURL = location.substring(0, location.lastIndexOf("/") + 1);
-
-  const resolvePath = (_, path) => {
-    const segments = (currentURL + path).split("/");
+  return element.replace(/\[\[\$((?:\.?\.\/)*)/g, (_, path) => {
+    const segments = (getCurrentUrl() + path).split("/");
     const resolved = [];
     for (const seg of segments) {
       if (seg === "..") {
@@ -35,9 +37,23 @@ const createURLs = element => {
     }
 
     return `[[${resolved.join("/")}`;
-  };
+  });
+};
 
-  return element.replace(/\[\[\$((?:\.?\.\/)*)/g, resolvePath);
+const resolveIncludes = async element => {
+  const regex = /\[\[!include (.+)\]\]/g;
+  const matches = element.match(regex);
+  let resolved = element;
+
+  for (const include of matches) {
+    const url = include.split("[[!include").pop().split("]]")[0];
+    const resp = await fetch(url);
+    const puml = await resp.text();
+
+    resolved = resolved.replace(include, puml);
+  }
+
+  return resolved;
 };
 
 const replace = (element, planted) => {
@@ -62,6 +78,7 @@ const main = async (html, config) => {
     for (const el of pumlElements) {
       let puml = el.innerText;
       const skin = await getSkin(config.skin);
+      puml = await resolveIncludes(puml);
       puml = createURLs(puml);
       const planted = createPlant(puml, skin, config);
       replace(el, planted);
