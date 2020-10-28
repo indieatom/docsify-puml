@@ -45,12 +45,14 @@ const resolveIncludes = async element => {
   const matches = element.match(regex);
   let resolved = element;
 
-  for (const include of matches) {
-    const url = include.split("[[!include").pop().split("]]")[0];
-    const resp = await fetch(url);
-    const puml = await resp.text();
+  if (matches) {
+    for (const include of matches) {
+      const url = include.split("[[!include").pop().split("]]")[0];
+      const resp = await fetch(url);
+      const puml = await resp.text();
 
-    resolved = resolved.replace(include, puml);
+      resolved = resolved.replace(include, puml);
+    }
   }
 
   return resolved;
