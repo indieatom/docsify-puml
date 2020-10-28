@@ -4,7 +4,7 @@ import getSkin from "./skin";
 const { dom } = window.Docsify;
 
 const LANG = "plantuml";
-const SELECTOR = `pre[data-lang="${LANG}"`;
+const SELECTOR = `pre[data-lang='${LANG}'`;
 
 const getElements = $ => {
   return dom.findAll($, SELECTOR);
@@ -19,6 +19,27 @@ const createPlant = (element, skin, { renderAsObject, serverPath }) => {
   return `<img src="${svgElement}" />`;
 };
 
+const createURLs = element => {
+  const location = window.location.toString();
+  const currentURL = location.substring(0, location.lastIndexOf("/") + 1);
+
+  const resolvePath = (_, path) => {
+    const segments = (currentURL + path).split("/");
+    const resolved = [];
+    for (const seg of segments) {
+      if (seg === "..") {
+        resolved.pop();
+      } else if (seg !== ".") {
+        resolved.push(seg);
+      }
+    }
+
+    return `[[${resolved.join("/")}`;
+  };
+
+  return element.replace(/\[\[\$((?:\.?\.\/)*)/g, resolvePath);
+};
+
 const replace = (element, planted) => {
   const parent = element.parentNode;
   const newContent = dom.create("p", planted);
@@ -30,7 +51,7 @@ const replace = (element, planted) => {
 };
 
 const main = async (html, config) => {
-  const $ = dom.create("div", html);
+  const $ = dom.create("span", html);
   if (!$.querySelectorAll) {
     return html;
   }
@@ -39,8 +60,10 @@ const main = async (html, config) => {
 
   if (pumlElements) {
     for (const el of pumlElements) {
+      let puml = el.innerText;
       const skin = await getSkin(config.skin);
-      const planted = createPlant(el.innerText, skin, config);
+      puml = createURLs(puml);
+      const planted = createPlant(puml, skin, config);
       replace(el, planted);
     }
   }
@@ -55,9 +78,7 @@ export default (hook, vm) => {
     ...vm.config.plantuml,
   };
 
-  hook.afterEach((html, next) => {
-    main(html, config).then(response => {
-      next(response);
-    });
+  hook.afterEach(async (html, next) => {
+    next(await main(html, config));
   });
 };
