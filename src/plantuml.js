@@ -15,13 +15,21 @@ const getCurrentUrl = () => {
   return location.substring(0, location.lastIndexOf("/") + 1);
 };
 
-const createPlant = (element, skin, { renderAsObject, serverPath }) => {
+const createPlant = (element, skin, { renderAsObject, serverPath, asLink }) => {
   const PUMLserver = serverPath || "//www.plantuml.com/plantuml/svg/";
   const svgElement = PUMLserver + encode(skin + element);
+  let planted = "";
   if (renderAsObject) {
-    return `<object type="image/svg+xml" data="${svgElement}" />`;
+    planted = `<object type="image/svg+xml" data="${svgElement}" />`;
+  } else {
+    planted = `<img src="${svgElement}" />`;
   }
-  return `<img src="${svgElement}" />`;
+
+  if (asLink) {
+    planted = `<a href="${svgElement}" target="_blank">${planted}</a>`;
+  }
+
+  return planted;
 };
 
 const createURLs = element => {
@@ -94,6 +102,7 @@ export default (hook, vm) => {
   const config = {
     skin: "default",
     renderAsObject: false,
+    asLink: false,
     ...vm.config.plantuml,
   };
 
