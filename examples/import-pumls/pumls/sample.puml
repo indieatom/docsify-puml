@@ -1,0 +1,4 @@
+@startuml sample
+Alice -> Bob: Authentication Request [[$./other-file docs]]
+Bob --> Alice: Authentication Response
+@enduml
