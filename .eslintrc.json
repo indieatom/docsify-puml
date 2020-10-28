@@ -12,6 +12,9 @@
   "rules": {
     "prettier/prettier": "error",
     "camelcase": "error",
-    "no-console": "off"
+    "no-console": "off",
+    "no-await-in-loop": "off",
+    "no-new": "off",
+    "no-restricted-syntax": "off"
   }
 }
