@@ -6,9 +6,10 @@
 
 <p align="center">Docsify plugin to parse PlantUML content</p>
 <p align="center">
-  <img src="https://img.shields.io/github/issues/indieatom/docsify-puml?style=for-the-badge" alt="issues"/>
-  <img src="https://img.shields.io/node/v/docsify-puml?style=for-the-badge" alt="node-version"/>
-  <img src="https://img.shields.io/npm/v/docsify-puml.svg?style=for-the-badge" alt="version"/>
+  <img src="https://badgen.net/github/issues/indieatom/docsify-puml?style=for-the-badge" alt="issues"/>
+  <img src="https://badgen.net/npm/node/docsify-puml?style=for-the-badge" alt="node-version"/>
+  <img src="https://badgen.net/npm/v/docsify-puml?style=for-the-badge" alt="version"/>
+  <img src="https://badgen.net/badgesize/normal/https/unpkg.com/docsify-puml/dist/docsify-puml.min.js?style=for-the-badge" /
 </p>
 
 <p align="center">
