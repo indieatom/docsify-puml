@@ -90,7 +90,7 @@ Alice <-- Bob: another authentication Response
 - [x] Parse link insed code;
 - [x] Parse external includes;
 - [x] Make image linkeable;
-- [] Make image [zoomable](https://github.com/francoischalifour/medium-zoom);
+- [ ] Make image [zoomable](https://github.com/francoischalifour/medium-zoom);
 
 ## Options
 
