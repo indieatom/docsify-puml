@@ -1,6 +1,6 @@
 {
   "name": "docsify-puml",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Docsify plugin to parse PlantUML content",
   "main": "src",
   "repository": "https://github.com/indieatom/docsify-puml.git",
