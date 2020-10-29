@@ -15,6 +15,7 @@
 <p align="center">
  <a href="#install">Install</a> •
  <a href="#usage">Usage</a> •
+ <a href="#features">Features</a> • 
  <a href="#options">Options</a> • 
  <a href="#examples">Examples</a> • 
  <a href="#meta">Meta</a> •
@@ -82,6 +83,14 @@ Alice <-- Bob: another authentication Response
 @enduml
 ```
 ````
+
+## Features
+
+- [x] Render as SVG object;
+- [x] Parse link insed code;
+- [x] Parse external includes;
+- [x] Make image linkeable;
+- [] Make image [zoomable](https://github.com/francoischalifour/medium-zoom);
 
 ## Options
 
